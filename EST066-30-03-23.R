@@ -1,4 +1,4 @@
-# 30/03/2023
+30/03/2023
 
 # Quadratic Distribution
 
@@ -6,7 +6,7 @@
 
 # Wiki: In probability theory and statistics, the U-quadratic distribution is a 
 # continuous probability distribution defined by a unique convex quadratic function
-#with lower limit a and upper limit b.
+# with lower limit a and upper limit b.
 
 # In our case, a = 0 and b = 1;
 
@@ -32,12 +32,12 @@ d2u (0.5)
 p2u <- function(x, a = 0, b = 1){
   
   if(x>=0 & x<1){ 
-  
-  B = (b + a)/2
-  A = 12/(b-a)**3
-  
-  return((A/3)*((x-B)**3+(B-a)**3))
-  
+    
+    B = (b + a)/2
+    A = 12/(b-a)**3
+    
+    return((A/3)*((x-B)**3+(B-a)**3))
+    
   }
   
   else if (x>=1)
@@ -134,7 +134,8 @@ dim(amostras3)
 decima<-r2u(50000)
 amostras10<-matrix(decima, ncol = 10) #tam de cada amostra eh 10 (sao 5000 no total)
 medias10<-apply(amostras10,1,mean)
-hist(medias10, freq = F, breaks = 50)
+dist_quadratica<-hist(medias10, freq = F, breaks = 50)
+plot(dist_quadratica)
 dim(amostras10)
 
 amostras10
@@ -169,3 +170,34 @@ curve(d2u, add = T, col = 'red')
 # Procurar como fazer o teste de normalidade
 # Proporcao de pontos dentro do ultimo grafico feito?
 
+
+
+# TESTE DE NORMALIDADE ---------------------------------------------------------
+
+# 04/04 Update
+
+hist(medias10, freq = F, breaks = 50, main = 'X^2(0,1)') 
+
+# histograma das medias de 5.000 amostras de tamanho 10
+
+
+# Shapiro - Wilk Test ----------------------------------------------------------
+
+shapiro.test(medias10)
+
+# p < 0.05 ----> dados nao apresentam normalidade
+
+
+# Kolmogorov-Smirnov -----------------------------------------------------------
+
+is_dgof_available <- require('dgof')
+
+if (is_dgof_available == 0) install.packages('dgof') 
+library('dgof')
+  
+ks.test(medias10,"pnorm",mean(medias10),sd(medias10)) # pnorm ou p2u?  
+
+# p > 0.05 ---> dados apresentam normalidade
+
+
+curve(dnorm, from = 0, to = 1, add = T)

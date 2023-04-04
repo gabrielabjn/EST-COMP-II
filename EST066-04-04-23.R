@@ -88,32 +88,44 @@ curve(pnorm(x, mean = media, sd = dp), add = T, lty = 2,
 abline(h = 0.5, lty = 3, col = 'blue')
 
 Xis<-rock$area
-eqm<-sum((Fn(Xis)-pnorm(Xis,mean = media, sd = sd))**2)
-eqm # erro quadratico medio
+eqm<-sum((Fn(Xis)-pnorm(Xis,mean = media, sd = dp))**2)
+eqm 
 eqm/48
-log(eqm/48)
+log(eqm/48)  # erro quadratico medio
 
-# Funcao que calcula a distancia media quadratica em qualquer vetor de pontos
+# Funcao que calcula a distancia media quadratica em qualquer vetor de pontos --
 
 min(rock$area)
 max(rock$area)
 
 calcula_eqm <- function(vet){ # vetor de tam n 
 
-   m <- mean(vet)
-   d<- sd(vet)
-  
-   return( sum((Fn(vet)-pnorm(vet,mean = m , sd = d))**2) )
- 
+    
+    n <- length(vet)
+    quadrado<-sum((Fn(vet)-pnorm(vet,mean = media , sd = dp))**2) 
+    
+    return(log(quadrado/n))
 
 
 }
 
 calcula_eqm(c(1,2,3,4,5))
+calcula_eqm(rock$area) # erro quadratico medio
 
+# ------------------------------------------------------------------------------
 
-  
+vet.tudo<-seq(1016,12212, length.out = 1000)
 
+calcula_eqm(vet.tudo)
 
+#  valores entre 40% e 60% -----------------------------------------------------
 
+qnorm(0.6, mean = media, sd = dp) # ate esse valor estao 60% dos dados
+
+qnorm(0.4, mean = media, sd = dp ) # ate esse valor estao 40% dos dados
+
+qnorm(0.6, mean = media, sd = dp) - qnorm(0.4, mean = media, sd = dp )
+
+vet.centro<-seq(6507,7867, length.out = 100)
+calcula_eqm(vet.centro)
 

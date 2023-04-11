@@ -123,12 +123,9 @@ Fn_unif<-ecdf(valoressunif)
 plot(Fn_unif, add = TRUE, col = 'blue')
 
 
+# Scatter plot dos pares versus dos impares
 
-
-
-
-
-
-
-
+pares<-(1:500)*2
+impares<- (1:500)*2-1
+plot(x = valoress[impares], y = valoress[pares], pch = '.')
 

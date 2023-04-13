@@ -129,3 +129,83 @@ pares<-(1:500)*2
 impares<- (1:500)*2-1
 plot(x = valoress[impares], y = valoress[pares], pch = '.')
 
+# 13/04/2023
+
+# Retomando a aula passada
+
+# r.unif.my ou runif : qual gera melhor?
+
+# Teste de Hipoteses pra media 
+# Pergunta: a media amostral se aproxima da populacional?
+
+?t.test
+
+# teste p variaveis geradas pela uniforme
+teste.mi<-t.test(x = valoress, alternative = 'two.sided', mu = 0.5,
+       paired = FALSE, var.equal = FALSE, conf.level = 0.95) 
+# 'two-sided' significa diferente (sinal operacional matematico)
+
+(mean(valoress) - 0.5)/sd(valoress)*sqrt(1000) # valor do teste-t
+
+p.valor = 2*(1-pt(1.013455,999))
+p.valor # nao rejeita a hipotese nula de que as amostras vem de uma
+# populacao com media populacional igual a 0.5
+
+teste.mi$statistic
+teste.mi$p.value
+length(teste.mi$conf.int[1:2])
+teste.mi$estimate
+teste.mi$parameter
+teste.mi$null.value #valor da hipotese nula
+teste.mi$stderr
+teste.mi$alternative
+
+# ------------------------------------------------------------------------------
+
+# Gerar amostra uniforme n = 100
+
+# Fazer teste T
+
+matriz<-matrix(data=NA, nrow = 100, ncol = 3 )
+
+# deu errado o codigo abaixo
+
+for (i in nrow(matriz)){
+  
+    amostraUNIF<- runif(100)
+    
+    teste<-t.test(x = amostraUNIF, alternative = 'two.sided', mu = 0.5,
+                      paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+   
+    matriz[i,1]<- teste$p.value
+    
+    matriz[i,2:3]<-teste$conf.interval[1:2]
+    
+}
+  
+matriz[!(matriz[,2]< 0.5 $ matriz[,3]>0.5)]
+
+# ------------------------------------------------------------------------------
+
+# remember that Fn<-ecdf(valoress) is a empirical distribution function
+plot(Fn)
+abline(0,1,col='blue')
+
+# eu quero comparar a funcao acumulada empirica com a normal
+
+Fn(0.5) #empirica
+punif(0.5) #tradicional
+
+max(abs(Fn(valoress)-valoress))
+#0.02556622
+
+# teste alternativo ao t-test
+ks.test(valoress,"punif",0,1)
+
+# r.unif.my gerar 1000 amostras diferentes de tamanhho 100 (mudar a semente)
+
+# r.unif.my <- function (tam,seed = 2, m = 2**32)
+
+# matriz p guardar p valor
+# quantos desses p valor cairam no intervalo de confianca
+

@@ -126,3 +126,6 @@ gamma(100)
 lgamma(100)
 gamma(1/2)
 
+# beta a partir da uniforme
+# gamma a partir da exponencial
+

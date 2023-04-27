@@ -72,6 +72,29 @@ plot(x = objeto$Z1, y = objeto$Z2, pch = c(19,19), col = c('lightblue', 'lightpi
      xlim = c(-3,3), ylim = - c(-3,3))
 abline(h = c(-1,1), v = c(-1,1), lty = 2)
 
-objeto.lm<-lm(objeto$Z1~objeto$Z2)
+objeto.lm<-lm(objeto$Z1~objeto$Z2) # linear model
 objeto.lm
 abline(objeto.lm, lwd = 1, col = 'red')
+
+# Coordenadas Polares ----------------------------------------------------------
+
+# R² = Z1² + Z2² ~ X2² qui-quadrado(2) = E(1/2) (igual em dist de prob - notacao disto eh um 'd'
+#  em cima do sinal de igual)
+
+# theta = arctg(Z1/Z2) ~ Uniforme (0,2pi)
+
+# e**(-R²/2) ~ Uniforme(0,1)
+
+emp_d<-ecdf(objeto$Z1**2 + objeto$Z2**2) # ecdf me retorna qual dist a empirica segue
+par(mfrow = c(2,1))
+plot(emp, col = 'blue2')
+
+length(objeto$Z1)
+
+x2<- rchisq(50,2)
+
+par(mfrow = c(2,1))
+plot(objeto$Z1, col = 'pink4', pch = 19)
+plot(rchisq(50,2), col = 'green4', pch = 19)
+
+

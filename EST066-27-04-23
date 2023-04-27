@@ -1,0 +1,77 @@
+# abrir de 0 a 1 e sortear 1000 numeros (do gerador congruencial) # 23/03
+# cada par de pontos eh um vetor
+# divide x em 10 intervalos e y em 10 intervalos
+# quantos dos pontos cairam nesses 100 quadrados
+# calcular uma qui-quadrado
+# correlacao entre xi e xi+1 corr(gerados[-100, gerados[-1]])
+
+
+# Algoritmo de Box - Muller ----------------------------------------------------
+
+# Sejam U1 e U2 iid de uma uniforme entre (0,1)
+
+# Entao,
+
+# Z1 = sqrt(-2logU1)cos(2piU2)
+# Z2 = sqrt(-2logU1)sen(2piU2)
+
+# Z1 e Z2 sao variaveis aleatorias normais padrao e sao independentes.
+
+box.muller <-function(n = 100){
+  
+  rodados <- n/2
+  
+  U1<-runif(rodados)
+  U2<-runif(rodados)
+  
+  erre<- sqrt(-2*log(U1))
+  theta<-(2*pi*U2)
+  
+  Z1 <- erre*cos(theta)
+  Z2 <- erre*sin(theta)
+  
+  vetores<-list(Z1 = Z1, Z2 = Z2, R = erre, ang = theta)
+  
+  return(vetores)
+}
+
+set.seed(666)
+
+objeto<-box.muller()
+summary(objeto)
+
+sapply(objeto,mean)
+
+
+# E(Z1) = E[Z2] = 0  , pois Z1, Z2 normais
+# E[R] 
+# E[theta] = E[2piU] = 2piE[U]
+
+t.test(objeto$Z1) # h0 : media populacional = 0
+
+par(mfrow = c(2,1))
+hist(objeto$Z1, freq = F, breaks = 15, col = 'lightblue')
+curve(dnorm, from = -3, to = 3, add = T, col = 'red')
+
+hist(objeto$Z1, freq = F, breaks = 15, col = 'lightpink')
+curve(dnorm, from = -3, to = 3, add = T, col = 'red')
+
+Fn1 <- ecdf(objeto$Z1)
+Fn2 <- ecdf(objeto$Z2)
+
+ks.test()
+
+par(mfrow = c(2,1))
+qqnorm(objeto$Z1, pch = 19, frame = FALSE, col = 'lightblue')
+qqnorm(objeto$Z2, pch = 19, frame = FALSE, col = 'lightpink')
+
+cor<-cor(objeto$Z1, objeto$Z2)
+cor**2
+
+plot(x = objeto$Z1, y = objeto$Z2, pch = c(19,19), col = c('lightblue', 'lightpink'),
+     xlim = c(-3,3), ylim = - c(-3,3))
+abline(h = c(-1,1), v = c(-1,1), lty = 2)
+
+objeto.lm<-lm(objeto$Z1~objeto$Z2)
+objeto.lm
+abline(objeto.lm, lwd = 1, col = 'red')

@@ -1,0 +1,64 @@
+# ------------------------------------------------------------------------------
+# FORMA POLAR DE BOX MULLER
+
+# (a) Gerar U1 e U2 iid de acordo com uma uniforme(-1,1) ate S = U1² + U2² < 1
+
+# (b) Defina Z = sqrt(-2*log(S)/S)
+
+# (c) Faco X1 = Z*U1 e X2 = Z*U2
+
+# V ~ Unif(0,1)
+# Quero transformar para...
+# U1 ~ uniforme(-1,1)
+# U1 = 2*V- 1
+
+# gauss2<-function(){
+
+v <- function(n=1) return(runif(n))
+s<-rep(1,100)
+u1<- numeric(100)
+u2<- numeric(100)
+i<-1
+z<- numeric(100)
+x1<-numeric(100)
+x2<-numeric(100)
+
+while(i <= 100){
+
+while (s[i] >= 1){
+
+u1[i]<- 2*v()-1
+u2[i] <- 2*v()-1
+
+u1[i]**2 + u2[i]**2 -> s[i]
+
+}
+
+z[i] = sqrt(-2*log(s[i])/s[i])
+x1[i]<-z[i]*u1[i]
+x2[i]<-z[i]*u2[i]
+i<- i + 1
+
+}
+
+# a<-c(x1, i)
+# return(a)
+
+# }
+
+# ------------------------------------------------------------------------------
+
+# Aproveitamento da area da uniforme por x1/x2 : 4/pi = 1.2732
+# 4/pi : (circulo sobre quadrado de area 4, centrado em 0) 
+
+# replicate(50, gauss2()) 
+
+# Histograma dos 100 valores e comparar com dnorm
+# Funcao de densidade empirica dos 100 valores e comparar com pnorm
+# Teste de Kolmogorov (empirica versus 'pnorm') 
+# t.test(mean(valores),mu = 0) p valor tambem deve ser alto
+
+par(mfrow = c(2,2))
+acf(x1)
+acf(x2)
+

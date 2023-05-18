@@ -1,0 +1,160 @@
+# EXERCICIO 01 --------------------------------------------------------------
+
+# Funcao h
+
+h<- function(y) (1/sqrt(2*pi))*exp((-(y+1)**2)/2)
+
+# Gerar 100 uniformes
+
+u<-numeric(100)
+
+for(i in u) u[i]<-runif(1)
+
+# Calcular o abaixo
+
+(1/100)* sum(h(u))
+
+# Media
+
+mean(h(runif(100)))
+
+# Media, erro padrao, histograma das 1000 estimativas que usam 100 Uniformes
+
+estimativas<-replicate(1000, mean(h(runif(100))))
+
+media<-mean(estimativas)
+
+desvio_padrao<-sd(estimativas)
+
+hist(estimativas,freq=F,col='lightpink')
+
+# Guardar valor medio exato
+
+media_exata<-0.1359051
+
+# Intervalo onde estao ate 95% dos valoressss
+
+diff(quantile(estimativas,prob = c(0.025, 0.975))) # empirico
+
+qnorm(c(0.025,0.975))* desvio_padrao + media
+
+qnorm(0.975) # exato
+
+
+# Repetir tudo para 200 uniformes ------------------------------------------
+
+u<-numeric(200)
+
+u<-numeric(200)
+for(i in u) u[i]<-runif(1)
+
+(1/200)* sum(h(u))
+
+mean(h(runif(200)))
+
+# Media, erro padrao, histograma das 1000 estimativas que usam 100 Uniformes
+
+estimativas2<-replicate(1000, mean(h(runif(200))))
+
+media2<-mean(estimativas2)
+
+desvio_padrao2<-sd(estimativas2)
+
+hist(estimativas2,freq=F,col='lightblue')
+
+# Intervalo onde estao ate 95% dos valoressss
+
+diff(quantile(estimativas2,prob = c(0.025, 0.975)))
+
+qnorm(c(0.025,0.975))* desvio_padrao2 + media2
+
+qnorm(0.975)
+
+# Repetir tudo para 500 uniformes ------------------------------------------
+
+u<-numeric(500)
+
+u<-numeric(500)
+for(i in u) u[i]<-runif(1)
+
+(1/500)* sum(h(u))
+
+mean(h(runif(500)))
+
+# Media, erro padrao, histograma das 1000 estimativas que usam 100 Uniformes
+
+estimativas3<-replicate(1000, mean(h(runif(500))))
+
+media3<-mean(estimativas3)
+
+desvio_padrao3<-sd(estimativas3)
+
+hist(estimativas3,freq=F,col='lightblue')
+
+# Intervalo onde estao ate 95% dos valoressss
+
+diff(quantile(estimativas3,prob = c(0.025, 0.975)))/2 # amplitude ou margem de erro
+
+qnorm(c(0.025,0.975))* desvio_padrao3 + media3
+
+qnorm(0.975)
+
+media3
+desvio_padrao3
+
+
+# EXERCICIO 02 ---------------------------------------- --------------------
+
+# Dada a funcao theta = integrate(g,0,Inf) (integral de g(x) em relacao a x)
+
+# Transformar para y = 1/(x+1)
+
+# --------------------------------------------------------------------------
+
+# 1- Analisar os extremos
+
+# x = 0, y = 1
+# x -> Inf, y -> 0
+
+# dy/dx = -1/(x+1)²
+
+# dy = -dx/(x+1)² --> -y²dx
+# dx = -dy/y²
+
+
+# Resultando na integral
+
+# integrate(-g(1/y-1)/y², 1,0 ) com relacao a y
+
+# integrate (g(1/y - 1)/y², 0, 1)
+
+# integrate(h,0,1)
+
+# h(x) = g(1/y-1)/y²
+
+
+# Mesmo metodo de transformacao aplicado a outra funcao
+
+# integrate(exp{-x²/2},0,Inf)
+# valor exato disso = 1.253314
+
+# Gerar U1, U2,..., U100 iid Ui~U(0,1)
+
+u<-runif(100)
+
+h <- function(y)(exp((-1/2)*(1/y-1)**2))/y**2
+
+estimativas4<-replicate(1000, mean(h(runif(100))))
+
+media4<-mean(estimativas4)
+media4
+
+desvio_padrao4<-sd(estimativas4)
+desvio_padrao4
+
+hist(estimativas4,freq=F,col='lightblue')
+
+quantile(estimativas4,prob = c(0.025, 0.975))
+
+
+

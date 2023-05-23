@@ -96,10 +96,15 @@ cont<-1
 while(cont <= length(emes)){
   
   valores<-estima.pi(emes[cont])
-  erros[cont]<-(abs(mean(mil_estimativas)-pi)/pi)
+  erros[cont]<-(abs(mean(valores)-pi)/pi)
   cont<-cont+1
   
 }
 
 erros
+
+# Plotar erros
+
+plot(x = 1:5, y = log(erros,10), bg="lightblue", col = 'blue', pch = 21)
+lm(log(erros,10)~(1:5))
 

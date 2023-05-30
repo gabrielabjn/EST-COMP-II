@@ -72,5 +72,17 @@ passeio <- function(n, ini = 1){
 
 passeio(1000, ini = 6)
 
-sapply(1:10,function(x)table(passeio[1:x]))
+# abaixo, era p ser com 'passeio' no lugar de val mas a minha funcao deu erro
+# por algum motivo (na maquina da maria rodou)
+
+sapply(1:10,function(x)table(val[1:x]))
+
+val == 1
+
+freq<-cumsum(val==1)/(1:1000)
+
+plot(freq, type = 'l', ylim = c(0,0.4))
+
+
+
 

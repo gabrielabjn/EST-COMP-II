@@ -1,0 +1,195 @@
+---
+title: "066-231_L03-GABRIELA_PASCHOAL"
+format: html
+editor: visual
+---
+
+## Lista 03 - Est Computacional
+
+## Questao 01
+
+#### letra a)
+
+#### via integracao
+
+Resolucao da Integral $\int_{0}^{1} exp(e^x) dx$
+
+Passo 1: Substituicao
+
+$u = e^x$, $du = e^x dx$
+
+De forma que temos $\int_{0}^{1} (exp(u)/u)du$, que eh a integral exponencial.
+
+Logo, temos que $\int_{0}^{1} \exp(e^x) dx$ = $Ei(e^x)$, que nao eh uma solucao simples. Mas por um sofware de estimacao de integral obtive o valor 6,32 para essa integral.
+
+#### via monte carlo
+
+```{r}
+
+# Definir o número de amostras
+
+n <- 1000000
+
+# Gerar amostras aleatórias uniformemente distribuídas no intervalo \[0, 1\]
+
+x <- runif(n, min = 0, max = 1)
+
+# Aplicar a função integranda às amostras
+
+y <- exp(exp(x))
+
+# Calcular a estimativa da integral
+
+integral_estimated <- mean(y)
+
+# Imprimir o resultado
+
+print(integral_estimated)
+
+```
+
+#### letra b)
+
+#### via integracao
+
+A integral \$ \int\_{-2}\^{2} e^(x+x^2) \$ nao possui solucao analitica trivial, por conta da equacao quadratica em seu expoente. Uma maneira comum de resolver essa integral eh justamente por metodos numericos. Em um estimador de integral na web, encontrei para ela a aproximacao de 93,26. Vamos verificar esse resultado por Monte Carlo.
+
+#### via monte carlo
+
+```{r}
+
+# Definir o número de amostras
+n <- 1000000
+
+# Gerar amostras aleatórias uniformemente distribuídas no intervalo [-2, 2]
+x <- runif(n, min = -2, max = 2)
+
+# Calcular a função integranda para cada amostra de x
+y <- exp(x + x**2)
+
+# Calcular a média dos valores obtidos
+mean_value <- mean(y)
+
+# Calcular a estimativa da integral
+integral_estimated <- mean_value * (2 - (-2))
+
+# Imprimir o resultado
+print(integral_estimated)
+
+```
+
+#### letra c)
+
+#### via integracao
+
+Resolucao da Integral $\int_{0}^{Inf} (x/(1+x^2))^2dx$
+
+Substituicao
+
+$u = 1+x^2$, $du = 2xdx$ --\> $xdx = (1/2)du$
+
+Resultado da integral (com 'u' ja trocado por 'x')
+
+$-1/2(1+x^2) \bigg|_{0}^{Inf}$ = 0 - (-1/2) = 1/2
+
+#### via monte carlo
+
+```{r}
+
+# Definir o número de amostras
+n <- 1000000
+
+# Gerar amostras aleatórias de x de uma distribuição adequada (e.g., exponencial)
+x <- rexp(n)
+
+# Calcular a função integranda para cada amostra de x
+y <- x / (1 + x^2)^2
+
+# Calcular a média dos valores obtidos
+mean_value <- mean(y)
+
+# Calcular a estimativa da integral
+integral_estimated <- mean_value  
+
+# Imprimir o resultado
+print(integral_estimated)
+
+```
+
+#### letra d)
+
+#### via integracao
+
+Resolucao da Integral $\int_{0}^{1} \int_{0}^{1} exp(x+y)^2dydx$
+
+Comecamos com a integral interna (com respeito a 'y'),
+
+\$ \int\_{0}\^{1} exp(x+y)\^2dy \$,
+
+e fazemos a substituicao u = x + y , du = dy, obtendo
+
+\$ \int\_{0}\^{1} exp(u)\^2du \$, cuja solucao eh $2exp(u)^2$ ou $2exp(x+y)^2\bigg|_{0}^{1}$ = $2exp(x+1)^2 - 2exp(x)^2$
+
+Ou seja, ficamos com $\int_{0}^{1} ( 2exp(x+1)^2 - 2exp(x)^2 ) dx$, que por sua vez nao apresenta solucao trivial e deve ser estimada por metodos numericos.
+
+#### via monte carlo
+
+```{r}
+
+# Definir o número de amostras
+n <- 1000000
+
+# Gerar amostras aleatórias de x de uma distribuição adequada (e.g., exponencial)
+x <- runif(n)
+y<- runif(n)
+
+# Calcular a função integranda para cada amostra de x
+z <-exp(x+y)^2
+
+# Calcular a média dos valores obtidos
+mean_value <- mean(z)
+
+# Calcular a estimativa da integral
+integral_estimated <- mean_value * (1-0) 
+
+# Imprimir o resultado
+print(integral_estimated)
+
+```
+
+#### letra e)
+
+#### via integracao
+
+Resolucao de $\int_{0}^{Inf} \int_{0}^{Inf} exp(-x-y)dydx$
+
+Comecando com a integral interna (em relacao a 'y'), obtemos $[-exp(-x-y)]_{0}^{Inf}$ = -exp(-x-Inf) + exp(-x-0) = 0 + exp(-x) = exp(-x)
+
+Agora precisamos lidar com a integral externa: $\int_{0}^{Inf} exp(-x)dx$:
+
+$\int_{0}^{Inf} exp(-x)dx = -exp(-x) \bigg|_{0}^{Inf} = 0 - (-1) = 1$
+
+#### via monte carlo
+
+```{r}
+
+# Definir o número de amostras
+n <- 1000000
+
+# Gerar amostras aleatórias de x de uma distribuição adequada (e.g., exponencial)
+x <- runif(n)
+y<- runif(n)
+
+# Calcular a função integranda para cada amostra de x
+z <-exp(-x-y)
+
+# Calcular a média dos valores obtidos
+mean_value <- mean(z)
+
+# Calcular a estimativa da integral
+integral_estimated <- mean_value 
+
+# Imprimir o resultado
+print(integral_estimated)
+
+```

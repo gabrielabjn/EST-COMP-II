@@ -92,6 +92,8 @@ e<-rnorm(1e3)
 y_1 <- rnorm(1e3)
 y_2<-rnorm(1e3)
 
+# consertar funcao abaixo
+
 Y_t <- mi + phi_1*y_1 + phi_2*y_2 + e
 
 ts<-ts(Y_t)

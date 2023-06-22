@@ -87,17 +87,14 @@ mi <- 0
 phi_1 <- 0.18828
 phi_2 <- 0.05861
 n<-1e3 # 1000
-e<-rnorm(1e3)
+e<-rnorm(n)
+Y_t <- numeric(n+2)
 
-y_1 <- rnorm(1e3)
-y_2<-rnorm(1e3)
+Y_t[1]<-0
+Y_t[2]<-0
 
-# consertar funcao abaixo
+for (i in 3:n) Y_t[i] <- mi + e[i-2] + phi_1 * Y_t[i-1] + phi_2 * Y_t[i-2]
 
-Y_t <- mi + phi_1*y_1 + phi_2*y_2 + e
-
-ts<-ts(Y_t)
-plot(ts)
-
-pacf(ts)
-
+ts <- ts(Y_t) 
+plot(ts)  
+acf(ts)

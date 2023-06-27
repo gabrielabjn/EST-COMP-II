@@ -1,0 +1,85 @@
+---
+title: "Lista #5 - Geração de Dados de Modelo de Regressão Linear"
+author: "Gabriela Paschoal"
+format: pdf
+editor: visual
+---
+
+#### OBJETIVO
+
+Procedimentos computacionais para geração de n = 100 observações de modelo de regressão linear múltipla, usando o procedimento discutido na aula do dia 22/06/2023.
+
+#### Running Code
+
+Implementação de código em R para gerar variáveis independentes e dependente associadas a modelo de regressão linear múltipla, com os parâmetros dados.
+
+```{r}
+
+# RETA 1
+
+ajusta_reta<-function(x,e) 150 - 4*x + e
+
+x<-rnorm(50,50,9)
+e<-rnorm(50,0,16)
+
+y_1<-ajusta_reta(x,e)
+
+cor(y_1,x) # correlacao
+plot(y_1,x, col = 'pink2', pch = 19) # grafico
+
+mL<-lm(y~x) 
+summary(mL) # estimacao dos coeficientes, erro padrao, R^2
+
+cor(y_1,x)**2
+
+# Calcular IC
+
+cota_sup<-mL$coefficients[2] + qt(0.975,98)* 0.1203
+cota_inf<-mL$coefficients[2] - qt(0.975,98)* 0.1203
+# nota: ultimo valor na formula eh o erro padrao de x
+
+# Grafico dos residuos
+
+library(ggfortify)
+
+op<-par()
+par(mfrow = c(2,2))
+for(i in 1:4) plot(mL)
+par(op)
+
+autoplot(mL) # nao sei pq nao foi, o dos colegas foi
+
+confint(mL, 'x', level = 0.95)
+confint(mL,'(Intercep)',level = 0.75)
+
+# vetor dos coeficientes do modelo linear (mL)
+mL$coefficients
+
+# tabelinha que apareceu no resultado do ajuste do modelo 
+summary(mL)$coefficients # da para acessar os elementos como se acessa os de uma matriz
+
+summary(mL)$sigma # desvio padrao estimado do modelo 
+```
+
+
+```{r}
+
+# RETA 2
+
+ajusta_reta2<-function(z,e) 150 + 2.5*x + e
+
+z<-rnorm(50,200,64)
+
+y_2<-ajusta_reta2(z,e)
+
+
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
